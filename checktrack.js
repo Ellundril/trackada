@@ -14,11 +14,7 @@ const adaExist = existsSync(adaPath) && statSync(adaPath).isDirectory;
 console.log(adaExist); */
 
 const adaExist = existsSync(join(homedir(), "Documents", "ada-tech"));
-if (adaExist) {
-  console.log(`Le dossier ada-tech existe`);
-} else {
-  console.log("le dossier ada-tech n'existe pas");
-}
+console.log(adaExist ? "✅ dossier ada-tech" : "❌ dossier ada-tech");
 
 // ===== VERIFICATION DES PROJETS =====
 
