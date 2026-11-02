@@ -31,9 +31,9 @@ const cheminProjet = join(
 
 const exist = (projet) => {
   if (existsSync(cheminProjet)) {
-    console.log(`Le dossier ${projet} existe`);
+    console.log(`✅ dossier du projet ${projet}`);
   } else {
-    console.log(`Le dossier ${projet} n'existe pas`);
+    console.log(`❌ dossier du projet ${projet}`);
   }
 };
 
