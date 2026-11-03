@@ -3,6 +3,7 @@ import { join } from "path";
 import chalk from "chalk";
 let projetsOk = 0;
 
+//VERIFIER le dossier, l'initialisation git et la présence de tous les fichiers nécessaires
 const verifierProjet = (cheminDossier, nom, tabFichiers) => {
   let erreurs = [];
   const chemin = join(cheminDossier, nom);
@@ -34,6 +35,7 @@ const verifierProjet = (cheminDossier, nom, tabFichiers) => {
   afficherErreurs(erreurs);
 };
 
+//Afficher le pourcentages de dossiers corrects
 const afficherPourcentage = (ok, total) => {
   const pourcentage = Math.round((ok / total) * 100);
   const valide = ok === total;
@@ -50,6 +52,7 @@ const afficherPourcentage = (ok, total) => {
       );
 };
 
+//Afficher le statut du dossier
 function afficherStatut(nom, ok) {
   ok
     ? console.log(
