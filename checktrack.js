@@ -5,7 +5,6 @@ import { homedir } from "os";
 // ==== CHARGEMENT ====
 //Charger et parser JSON
 const trackJson = JSON.parse(readFileSync("track.json", "utf-8"));
-console.log(trackJson);
 
 //Chemin vers ~/Documents/ada-tech
 // const cheminAda = join(homedir(), "Documents", "ada-tech");
@@ -22,22 +21,21 @@ const cheminProjet = join(
 //Vérification existence du dossier Projets
 
 const dossierProjetExist = existsSync(cheminProjet);
-console.log(dossierProjetExist ? `✅ dossier Projet ` : "❌ dossier Projet");
+console.log(
+  dossierProjetExist ? `✅ dossier projets ` : "❌ dossier projets introuvable",
+);
 
 // ===== VERIFICATION DES PROJETS =====
 
 //récupération du tableau des projets
 const projets = trackJson.projects; //c'est un tableau
-console.log(projets);
 
-import { afficherStatut } from "./utils.js";
+import { verifierProjet } from "./utils.js";
 
-//Vérifie l'existence des dossiers projets et gère l'affichage du résultat
-const exist = (projet) => {
-  afficherStatut(projet, existsSync(cheminProjet));
-};
-
+//Vérification de chaque projet
 projets.forEach((projet) => {
   const nomProjet = projet.name;
-  exist(nomProjet);
+  const requis = projet.required;
+
+  verifierProjet(cheminProjet, nomProjet, requis);
 });

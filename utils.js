@@ -1,3 +1,34 @@
+import { existsSync } from "fs";
+import { join } from "path";
+
+const verifierProjet = (cheminDossier, nom, tabFichiers) => {
+  let erreurs = [];
+  const chemin = join(cheminDossier, nom);
+
+  const exist = existsSync(chemin);
+  if (!exist) {
+    erreurs.push("le dossier n'existe pas ou n'est pas nommé correctement");
+  }
+
+  const initGit = existsSync(join(chemin, ".git"));
+  if (!initGit) {
+    erreurs.push("le repository git n'est pas initialisé");
+  }
+
+  const manquants = tabFichiers.filter(
+    (fichier) => !existsSync(join(chemin, fichier)),
+  );
+  const presents = manquants.length === 0;
+  if (!presents) {
+    let fichiersManquants = [];
+    manquants.forEach((fichier) => fichiersManquants.push(fichier));
+    erreurs.push(messageFichiers(fichiersManquants));
+  }
+  const result = exist && initGit && presents;
+  afficherStatut(nom, result);
+  afficherErreurs(erreurs);
+};
+
 function afficherStatut(nom, ok) {
   const icone = ok ? "✅" : "❌";
   console.log(`${icone} dossier du projet ${nom}`);
@@ -22,4 +53,4 @@ const messageFichiers = (manquants) => {
   return `Il manque ${fichiersManquants}`;
 };
 
-export { afficherStatut, afficherErreurs, formaterListe, messageFichiers };
+export { verifierProjet };
