@@ -32,7 +32,7 @@ console.log(projets);
 
 import { afficherStatut } from "./utils.js";
 
-//Gère l'existence des dossiers projets et l'affichage du résultat
+//Vérifie l'existence des dossiers projets et gère l'affichage du résultat
 const exist = (projet) => {
   afficherStatut(projet, existsSync(cheminProjet));
 };
