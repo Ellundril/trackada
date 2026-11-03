@@ -1,5 +1,7 @@
 import { existsSync } from "fs";
 import { join } from "path";
+import chalk from "chalk";
+let projetsOk = 0;
 
 const verifierProjet = (cheminDossier, nom, tabFichiers) => {
   let erreurs = [];
@@ -53,4 +55,4 @@ const messageFichiers = (manquants) => {
   return `Il manque ${fichiersManquants}`;
 };
 
-export { verifierProjet };
+export { verifierProjet, afficherPourcentage, projetsOk };

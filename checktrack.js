@@ -30,12 +30,13 @@ console.log(
 //récupération du tableau des projets
 const projets = trackJson.projects; //c'est un tableau
 
-import { verifierProjet } from "./utils.js";
+import { verifierProjet, afficherPourcentage, projetsOk } from "./utils.js";
 
 //Vérification de chaque projet
 projets.forEach((projet) => {
   const nomProjet = projet.name;
   const requis = projet.required;
-
   verifierProjet(cheminProjet, nomProjet, requis);
 });
+
+afficherPourcentage(projetsOk, projets.length);
