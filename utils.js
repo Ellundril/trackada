@@ -27,13 +27,39 @@ const verifierProjet = (cheminDossier, nom, tabFichiers) => {
     erreurs.push(messageFichiers(fichiersManquants));
   }
   const result = exist && initGit && presents;
+  if (result) {
+    projetsOk++;
+  }
   afficherStatut(nom, result);
   afficherErreurs(erreurs);
 };
 
+const afficherPourcentage = (ok, total) => {
+  const pourcentage = Math.round((ok / total) * 100);
+  const valide = ok === total;
+  valide
+    ? console.log(
+        chalk.green.bold(
+          `✅ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})`,
+        ),
+      )
+    : console.log(
+        chalk.red.bold(
+          `❌ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})`,
+        ),
+      );
+};
+
 function afficherStatut(nom, ok) {
-  const icone = ok ? "✅" : "❌";
-  console.log(`${icone} dossier du projet ${nom}`);
+  ok
+    ? console.log(
+        chalk.green.bold(`✅ dossier du projet ${nom}
+         `),
+      )
+    : console.log(
+        chalk.red.bold(`❌ dossier du projet ${nom}
+         `),
+      );
 }
 
 const afficherErreurs = (erreurs) => {
@@ -52,7 +78,8 @@ const formaterListe = (items) => {
 
 const messageFichiers = (manquants) => {
   const fichiersManquants = formaterListe(manquants);
-  return `Il manque ${fichiersManquants}`;
+  return `Il manque ${fichiersManquants}
+   `;
 };
 
 export { verifierProjet, afficherPourcentage, projetsOk };

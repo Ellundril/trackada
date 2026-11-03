@@ -1,6 +1,7 @@
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
+import chalk from "chalk";
 
 // ==== CHARGEMENT ====
 //Charger et parser JSON
@@ -22,7 +23,11 @@ const cheminProjet = join(
 
 const dossierProjetExist = existsSync(cheminProjet);
 console.log(
-  dossierProjetExist ? `✅ dossier projets ` : "❌ dossier projets introuvable",
+  dossierProjetExist
+    ? chalk.green.bold(`✅ dossier projets
+       `)
+    : chalk.red.bold(`❌ dossier projets introuvable 
+       `),
 );
 
 // ===== VERIFICATION DES PROJETS =====
