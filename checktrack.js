@@ -31,18 +31,15 @@ rl.question("Quel est ton nom ? ", (nom) => {
   rl.question("Lancer la vérification ? (o/n) ", (reponse) => {
     if (reponse.trim().toLowerCase() === "o") {
       console.log(`Bonjour ${nom}, 
-        Je lance la vérification...
-         `);
+        Je lance la vérification...\n`);
       // lancer la vérification
       //Vérification existence du dossier Projets
 
       const dossierProjetExist = existsSync(cheminProjet);
       console.log(
         dossierProjetExist
-          ? chalk.green.bold(`✅ dossier projets
-          `)
-          : chalk.red.bold(`❌ dossier projets introuvable 
-            `),
+          ? chalk.green.bold(`✅ dossier projets\n`)
+          : chalk.red.bold(`❌ dossier projets introuvable\n`),
       );
 
       // ===== VERIFICATION DES PROJETS =====

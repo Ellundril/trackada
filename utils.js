@@ -58,14 +58,8 @@ const afficherPourcentage = (ok, total) => {
 //Afficher le statut du dossier
 function afficherStatut(nom, ok) {
   ok
-    ? console.log(
-        chalk.green.bold(`✅ dossier du projet ${nom}
-         `),
-      )
-    : console.log(
-        chalk.red.bold(`❌ dossier du projet ${nom}
-         `),
-      );
+    ? console.log(chalk.green.bold(`✅ dossier du projet ${nom}\n`))
+    : console.log(chalk.red.bold(`❌ dossier du projet ${nom}\n`));
 }
 
 const afficherErreurs = (erreurs) => {
