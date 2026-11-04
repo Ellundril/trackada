@@ -1,7 +1,8 @@
 import { existsSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
-import chalk from "chalk";
+import chalk from "chalk"; //permet d'afficher des couleurs dans le terminal
+//Variables
 let erreurs = [];
 const cheminProjets = join(
   homedir(),
@@ -11,13 +12,7 @@ const cheminProjets = join(
   "projets",
 );
 
-const dossierProjetExist = () => {
-  console.log(
-    existsSync(cheminProjets)
-      ? chalk.green.bold(`✅ dossier projets\n`)
-      : chalk.red.bold(`❌ dossier projets introuvable\n`),
-  );
-};
+//Fonctions de bases
 const existeProjet = (chemin) => {
   const exist = existsSync(chemin);
   if (!exist) {
@@ -46,7 +41,14 @@ const isFileMissing = (chemin, tableau) => {
   }
   return presents;
 };
-
+//Vérif dossier parent projets
+const dossierProjetExist = () => {
+  console.log(
+    existsSync(cheminProjets)
+      ? chalk.green.bold(`✅ dossier projets\n`)
+      : chalk.red.bold(`❌ dossier projets introuvable\n`),
+  );
+};
 //VERIFIER le dossier, l'initialisation git et la présence de tous les fichiers nécessaires/retourne un booleen et le tableau des éventuelles erreurs
 function verifierProjet(suiviProjet, projet) {
   erreurs = [];
@@ -59,7 +61,7 @@ function verifierProjet(suiviProjet, projet) {
   const { dossier, git, fichiers } = suiviProjet;
   suiviProjet.ok = dossier && git && fichiers;
 }
-
+//affichage du résultat dans le terminal
 function afficherResultat(objet) {
   afficherStatut(objet.nom, objet.ok);
   afficherErreurs(objet.erreursListe);
@@ -81,8 +83,8 @@ const afficherPourcentage = (ok, total) => {
         ),
       );
 };
+//=====FONCTIONS AFFICHAGE====
 
-//Afficher le statut du dossier
 function afficherStatut(nom, ok) {
   ok
     ? console.log(chalk.green.bold(`✅ dossier du projet ${nom}\n`))
@@ -108,7 +110,7 @@ const messageFichiers = (manquants) => {
   return `Il manque ${fichiersManquants}
    `;
 };
-
+// ==== exportations ====
 export {
   verifierProjet,
   afficherResultat,
