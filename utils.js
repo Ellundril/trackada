@@ -1,24 +1,27 @@
 import { existsSync } from "fs";
 import { join } from "path";
 import chalk from "chalk";
-let projetsOk = 0;
+let erreurs = [];
+let projetOk = 0;
 
-//VERIFIER le dossier, l'initialisation git et la présence de tous les fichiers nécessaires
-const verifierProjet = (cheminDossier, nom, tabFichiers) => {
-  let erreurs = [];
-  const chemin = join(cheminDossier, nom);
-  //verification existence dossier
+const existeProjet = (chemin) => {
   const exist = existsSync(chemin);
   if (!exist) {
     erreurs.push("le dossier n'existe pas ou n'est pas nommé correctement");
   }
-  //vérification initialisation git
+  return exist;
+};
+
+const isGitInit = (chemin) => {
   const initGit = existsSync(join(chemin, ".git"));
   if (!initGit) {
     erreurs.push("le repository git n'est pas initialisé");
   }
-  //Recherche des fichiers manquants
-  const manquants = tabFichiers.filter(
+  return initGit;
+};
+
+const isFileMissing = (chemin, tableau) => {
+  const manquants = tableau.filter(
     (fichier) => !existsSync(join(chemin, fichier)),
   );
   const presents = manquants.length === 0;
@@ -27,13 +30,19 @@ const verifierProjet = (cheminDossier, nom, tabFichiers) => {
     manquants.forEach((fichier) => fichiersManquants.push(fichier));
     erreurs.push(messageFichiers(fichiersManquants));
   }
-  //vérification des trois conditions (bon dossier, présence de .git et tous les fichiers sont présents)
-  const result = exist && initGit && presents;
-  //compte les dossiers projet ok
+  return presents;
+};
+//VERIFIER le dossier, l'initialisation git et la présence de tous les fichiers nécessaires
+const verifierProjet = (cheminDossier, nom, tabFichiers) => {
+  erreurs = [];
+  const chemin = join(cheminDossier, nom);
+  const dossierProjetOk = existeProjet(chemin);
+  const gitInit = isGitInit(chemin);
+  const filesPresents = isFileMissing(chemin, tabFichiers);
+  const result = dossierProjetOk && gitInit && filesPresents;
   if (result) {
-    projetsOk++;
+    projetOk++;
   }
-  //affichage des résultats
   afficherStatut(nom, result);
   afficherErreurs(erreurs);
 };
@@ -82,4 +91,4 @@ const messageFichiers = (manquants) => {
    `;
 };
 
-export { verifierProjet, afficherPourcentage, projetsOk };
+export { verifierProjet, afficherPourcentage, projetOk };

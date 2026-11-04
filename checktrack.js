@@ -1,6 +1,8 @@
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
+import { verifierProjet, afficherPourcentage, projetOk } from "./utils.js";
+import readline from "readline";
 import chalk from "chalk";
 
 // ==== CHARGEMENT ====
@@ -17,46 +19,44 @@ const cheminProjet = join(
 );
 
 const projets = trackJson.projects; //c'est un tableau
+let etatDossier = {
+  nom: "",
+  dossierExiste: false,
+  git: false,
+  fichiersPresents: false,
+  erreurs: [],
+  ok: false,
+};
 
-import { verifierProjet, afficherPourcentage, projetsOk } from "./utils.js";
-//Interaction avec l'utilisateur
-import readline from "readline";
+//==== Interaction avec l'utilisateur =====
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
 console.log("Outil de vérification de projets activé...");
-rl.question("Quel est ton nom ? ", (nom) => {
-  rl.question("Lancer la vérification ? (o/n) ", (reponse) => {
-    if (reponse.trim().toLowerCase() === "o") {
-      console.log(`Bonjour ${nom}, 
-        Je lance la vérification...\n`);
-      // lancer la vérification
-      //Vérification existence du dossier Projets
+rl.question("Lancer la vérification ? (o/n) ", (reponse) => {
+  if (reponse.trim().toLowerCase() === "o") {
+    console.log(`Je lance la vérification...\n`);
 
-      const dossierProjetExist = existsSync(cheminProjet);
-      console.log(
-        dossierProjetExist
-          ? chalk.green.bold(`✅ dossier projets\n`)
-          : chalk.red.bold(`❌ dossier projets introuvable\n`),
-      );
+    // ===== VERIFICATION EXISTENCE DU DOSSIER PROJET
 
-      // ===== VERIFICATION DES PROJETS =====
+    console.log(
+      existsSync(cheminProjet)
+        ? chalk.green.bold(`✅ dossier projets\n`)
+        : chalk.red.bold(`❌ dossier projets introuvable\n`),
+    );
 
-      //récupération du tableau des projets
+    // ===== VERIFICATION DES PROJETS =====
+    projets.forEach((projet) => {
+      const nomProjet = projet.name;
+      const requis = projet.required;
+      verifierProjet(cheminProjet, nomProjet, requis);
+    });
 
-      //Vérification de chaque projet
-      projets.forEach((projet) => {
-        const nomProjet = projet.name;
-        const requis = projet.required;
-        verifierProjet(cheminProjet, nomProjet, requis);
-      });
-
-      afficherPourcentage(projetsOk, projets.length);
-    } else {
-      console.log("Annulé.");
-    }
-    rl.close();
-  });
+    afficherPourcentage(projetOk, projets.length);
+  } else {
+    console.log("Annulé.");
+  }
+  rl.close();
 });
