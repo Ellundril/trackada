@@ -1,4 +1,4 @@
-# Instructions Trackada
+# Trackada
 
 Trackada est un projet en node.js qui permet de vérifier pour chaque projet réalisés pendant la formation avec Ada Tech School :
 
@@ -12,11 +12,11 @@ Trackada est un projet en node.js qui permet de vérifier pour chaque projet ré
 
 - Un fichier principal js [checktrack.js](checktrack.js)
 - Un fichier [package.json](package.json)
-- Un fichier d'instructions (celui-ci) [instructions.md](instructions.md)
+- Un fichier [readme.md](readme.md)
 - Un fichier avec les données à vérifier [track.json](track.json)
 - Un fichier avec les fonctions utiles [utils.js](utils.js)
 
-### Fichiers pour bonus
+### Fichiers pour le bonus
 
 Pour réaliser le bonus : "afficher des couleurs dans le terminal" j'ai installé un module node nommé chalk qui amène donc :
 
@@ -41,13 +41,11 @@ Pour réaliser le bonus : "afficher des couleurs dans le terminal" j'ai install�
 node checktrack.js
 ```
 
-3. Répondre à la question par votre nom ou votre pseudo
-
-4. Choisir une option :
+3. Choisir une option :
    - o pour oui
    - n pour non
 
-5. Trackada renvoie l'analyse des fichiers sauf si vous avez choisi "n" à l'étape 4.
+4. Trackada renvoie l'analyse des fichiers sauf si vous avez choisi "n" à l'étape 4.
 
 ### Résultats
 
