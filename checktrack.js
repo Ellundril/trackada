@@ -1,32 +1,30 @@
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
-import { verifierProjet, afficherPourcentage, projetOk } from "./utils.js";
+import {
+  dossierProjetExist,
+  verifierProjet,
+  afficherPourcentage,
+  afficherResultat,
+} from "./utils.js";
+
 import readline from "readline";
 import chalk from "chalk";
 
 // ==== CHARGEMENT ====
 //Charger et parser JSON
 const trackJson = JSON.parse(readFileSync("track.json", "utf-8"));
+const tabProjets = trackJson.projects; //c'est un tableau
 
-//Chemin vers ~/Documents/ada-tech/bloc1/projets
-const cheminProjet = join(
-  homedir(),
-  "Documents",
-  "ada-tech",
-  "bloc1",
-  "projets",
-);
-
-const projets = trackJson.projects; //c'est un tableau
-let etatDossier = {
+let suiviProjet = {
   nom: "",
-  dossierExiste: false,
+  dossier: false,
   git: false,
-  fichiersPresents: false,
-  erreurs: [],
+  fichiers: false,
+  erreursListe: [],
   ok: false,
 };
+let nbProjetsValides = 0;
 
 //==== Interaction avec l'utilisateur =====
 const rl = readline.createInterface({
@@ -40,23 +38,19 @@ rl.question("Lancer la vérification ? (o/n) ", (reponse) => {
     console.log(`Je lance la vérification...\n`);
 
     // ===== VERIFICATION EXISTENCE DU DOSSIER PROJET
-
-    console.log(
-      existsSync(cheminProjet)
-        ? chalk.green.bold(`✅ dossier projets\n`)
-        : chalk.red.bold(`❌ dossier projets introuvable\n`),
-    );
-
+    dossierProjetExist();
     // ===== VERIFICATION DES PROJETS =====
-    projets.forEach((projet) => {
-      const nomProjet = projet.name;
-      const requis = projet.required;
-      verifierProjet(cheminProjet, nomProjet, requis);
+    tabProjets.forEach((projet) => {
+      verifierProjet(suiviProjet, projet);
+      afficherResultat(suiviProjet);
+      if (suiviProjet.ok) {
+        nbProjetsValides++;
+      }
     });
-
-    afficherPourcentage(projetOk, projets.length);
+    afficherPourcentage(nbProjetsValides, tabProjets.length);
   } else {
     console.log("Annulé.");
   }
+
   rl.close();
 });
