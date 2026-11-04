@@ -49,7 +49,7 @@ const dossierProjetExist = () => {
       : chalk.red.bold(`❌ dossier projets introuvable\n`),
   );
 };
-//VERIFIER le dossier, l'initialisation git et la présence de tous les fichiers nécessaires/retourne un booleen et le tableau des éventuelles erreurs
+//Vérification présence du dossier, de .git, des fichiers requis et stockage de ces infos dans un objet
 function verifierProjet(suiviProjet, projet) {
   erreurs = [];
   const chemin = join(cheminProjets, projet.name);
