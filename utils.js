@@ -7,17 +7,17 @@ let projetsOk = 0;
 const verifierProjet = (cheminDossier, nom, tabFichiers) => {
   let erreurs = [];
   const chemin = join(cheminDossier, nom);
-
+  //verification existence dossier
   const exist = existsSync(chemin);
   if (!exist) {
     erreurs.push("le dossier n'existe pas ou n'est pas nommé correctement");
   }
-
+  //vérification initialisation git
   const initGit = existsSync(join(chemin, ".git"));
   if (!initGit) {
     erreurs.push("le repository git n'est pas initialisé");
   }
-
+  //Recherche des fichiers manquants
   const manquants = tabFichiers.filter(
     (fichier) => !existsSync(join(chemin, fichier)),
   );
@@ -27,10 +27,13 @@ const verifierProjet = (cheminDossier, nom, tabFichiers) => {
     manquants.forEach((fichier) => fichiersManquants.push(fichier));
     erreurs.push(messageFichiers(fichiersManquants));
   }
+  //vérification des trois conditions (bon dossier, présence de .git et tous les fichiers sont présents)
   const result = exist && initGit && presents;
+  //compte les dossiers projet ok
   if (result) {
     projetsOk++;
   }
+  //affichage des résultats
   afficherStatut(nom, result);
   afficherErreurs(erreurs);
 };
