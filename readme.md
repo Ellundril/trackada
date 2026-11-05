@@ -28,25 +28,35 @@ Pour réaliser le bonus : "afficher des couleurs dans le terminal" j'ai install�
 ### Prérequis
 
 - Avoir installé Node.js
-- Le dossier trackada doit être situé au même niveau que les autres dossiers projets dans l'arborescence.
-- Chemin absolu du dossier trackada : /c/Users/Admin Orgaly/Documents/ada-tech/bloc1/projets/trackada
+- Avoir créé l'arborescence depuis le dossier ada-tech demandée par Ada en S1 :
+  - Chemin du dossier trackada depuis votre dossier ada-tech : /ada-tech/bloc1/projets/trackada
 
 ### Lancement
 
-1. Se placer dans le dossier [trackada](trackada)
+1. Télécharger le dossier depuis github en se plaçant dans le dossier : /ada-tech/bloc1/projets et en tapant dans le terminal :
 
-2. Dans le terminal lancer la commande suivante :
+```bash
+git clone git@github.com:Ellundril/trackada.git
+```
+
+2. Se placer dans le dossier [trackada](trackada)
+
+```bash
+cd trackada/
+```
+
+3. Dans le terminal lancer la commande suivante :
 
 ```bash
 node checktrack.js
 ```
 
-3. Choisir une option :
-   - o pour lancer la vérification complète
+4. Choisir une option :
+   - "o" pour lancer la vérification complète
    - le "nom d'un projet" pour vérifier ce projet particulier
-   - n pour annuler la vérification
+   - "n" pour annuler la vérification
 
-4. Trackada renvoie l'analyse des fichiers demandés sauf si vous avez choisi "n" à l'étape 3.
+5. Trackada renvoie l'analyse des fichiers demandés sauf si vous avez choisi "n" à l'étape 4.
 
 ### Résultats
 
@@ -79,8 +89,10 @@ node checktrack.js
     > ❌ 29% des projets sont initialisés correctement (2/7)
 
 - **dossiers supplémentaires non traités** :
-- affiche la liste des dossiers de projets non suivis par trackada mais présents dans le dossier parent "Projets"
+  - affiche la liste des dossiers de projets non suivis par trackada mais présents dans le dossier parent "Projets"
+
   _Exemple_ :
+
   > Les dossiers adapage_lyon_seyroux_violaine.zip, adaremise, adatheque et cluada sont en trop.
 
 ## Bonus réalisés :
