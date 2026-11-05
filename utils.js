@@ -74,15 +74,21 @@ const afficherPourcentage = (ok, total) => {
   valide
     ? console.log(
         chalk.green.bold(
-          `✅ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})`,
+          `✅ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
         ),
       )
     : console.log(
         chalk.red.bold(
-          `❌ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})`,
+          `❌ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
         ),
       );
 };
+
+//détecter les dossiers en trop
+const dossiersTracked = (dossier, trackedTab) => {
+  return trackedTab.some((projet) => projet.name === dossier);
+};
+
 //=====FONCTIONS AFFICHAGE====
 
 function afficherStatut(nom, ok) {
@@ -110,10 +116,18 @@ const messageFichiers = (manquants) => {
   return `Il manque ${fichiersManquants}
    `;
 };
+
+const afficherDossiersSupp = (listeDossiersSupp) => {
+  const dossiersSupp = formaterListe(listeDossiersSupp);
+  console.log(chalk.blue.italic(`Les dossiers ${dossiersSupp} sont en trop.`));
+};
 // ==== exportations ====
 export {
   verifierProjet,
   afficherResultat,
   afficherPourcentage,
   dossierProjetExist,
+  dossiersTracked,
+  afficherDossiersSupp,
+  cheminProjets,
 };
