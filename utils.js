@@ -1,4 +1,4 @@
-import { existsSync } from "fs";
+import { existsSync, writeFileSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 import chalk from "chalk"; //permet d'afficher des couleurs dans le terminal
@@ -12,6 +12,18 @@ const cheminProjets = join(
   "projets",
 );
 
+//récupération de la date
+const date = new Date();
+console.log(date.toDateString());
+
+// fonction écriture dans un fichier
+
+const ecrire = (string) => {
+  writeFileSync(join(cheminProjets, "trackada", "resultats.txt"), string, {
+    encoding: "utf-8",
+    flag: "a+",
+  });
+};
 //Fonctions de bases
 const existeProjet = (chemin) => {
   const exist = existsSync(chemin);
@@ -43,11 +55,13 @@ const isFileMissing = (chemin, tableau) => {
 };
 //Vérif dossier parent projets
 const dossierProjetExist = () => {
-  console.log(
-    existsSync(cheminProjets)
-      ? chalk.green.bold(`✅ dossier projets\n`)
-      : chalk.red.bold(`❌ dossier projets introuvable\n`),
-  );
+  if (existsSync(cheminProjets)) {
+    console.log(chalk.green.bold(`✅ dossier projets\n`));
+    ecrire(`✅ dossier projets\n`);
+  } else {
+    console.log(chalk.red.bold(`❌ dossier projets introuvable\n`));
+    ecrire(`❌ dossier projets introuvable\n`);
+  }
 };
 //Vérification présence du dossier, de .git, des fichiers requis et stockage de ces infos dans un objet
 function verifierProjet(suiviProjet, projet) {
