@@ -8,6 +8,7 @@ import {
   cheminProjets,
   dossiersTracked,
   afficherDossiersSupp,
+  recupDossierATraiter,
 } from "./utils.js";
 
 import readline from "readline";
@@ -71,7 +72,11 @@ rl.question(
 
       default:
         if (dossiersTracked(reponse.trim().toLowerCase(), tabProjets)) {
-          console.log(`Vérification du projet ${reponse}`);
+          const nomDossier = reponse.trim().toLowerCase();
+          console.log(`Vérification du projet ${nomDossier}`);
+          const dossierComplet = recupDossierATraiter(nomDossier, tabProjets);
+          verifierProjet(suiviProjet, dossierComplet);
+          afficherResultat(suiviProjet);
         } else {
           console.log(`Le projet ${reponse} n'existe pas`);
         }
