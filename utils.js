@@ -20,10 +20,6 @@ const ecrire = (string) => {
   });
 };
 
-//récupération de la date
-const date = new Date();
-ecrire(date.toDateString());
-
 //Fonctions de bases
 const existeProjet = (chemin) => {
   const exist = existsSync(chemin);
@@ -170,5 +166,6 @@ export {
   dossiersTracked,
   afficherDossiersSupp,
   recupDossierATraiter,
+  ecrire,
   cheminProjets,
 };
