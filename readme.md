@@ -34,7 +34,7 @@ Pour réaliser le bonus : "afficher des couleurs dans le terminal" j'ai install�
 
 ### Lancement
 
-1. Télécharger le dossier depuis github en se plaçant dans le dossier : /ada-tech/bloc1/projets et en tapant dans le terminal :
+1. Cloner le dossier depuis github
 
 ```bash
 git clone git@github.com:Ellundril/trackada.git
@@ -56,6 +56,18 @@ node checktrack.js
    - "o" pour lancer la vérification complète
    - le "nom d'un projet" pour vérifier ce projet particulier
    - "n" pour annuler la vérification
+
+En cas d'erreur : modifier l'arborescence dans la variable cheminProjet du fichier [utils.js](utils.js) pour qu'elle corresponde à votre machine
+
+```js
+const cheminProjets = join(
+  homedir(),
+  "Documents",
+  "ada-tech",
+  "bloc1",
+  "projets",
+);
+```
 
 5. Trackada renvoie l'analyse des fichiers demandés sauf si vous avez choisi "n" à l'étape 4.
 
