@@ -22,6 +22,7 @@ Pour réaliser le bonus : "afficher des couleurs dans le terminal" j'ai install�
 
 - un dossier [node_modules](node_modules)
 - un fichier [package-lock.json](package-lock.json)
+- un fichier resultat.txt qui sera créé au premier lancement de trackada
 
 ## Lancement du projet
 
