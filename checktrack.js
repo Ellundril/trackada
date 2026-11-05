@@ -19,6 +19,10 @@ const trackJson = JSON.parse(readFileSync("track.json", "utf-8"));
 const tabProjets = trackJson.projects; //c'est un tableau
 const listeProjets = readdirSync(cheminProjets);
 
+//récupération de la date
+const date = new Date();
+console.log(date.toDateString());
+
 let suiviProjet = {
   nom: "",
   dossier: false,
