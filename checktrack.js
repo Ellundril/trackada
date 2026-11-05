@@ -52,7 +52,7 @@ rl.question("Lancer la vérification ? (o/n) ", (reponse) => {
     });
 
     afficherPourcentage(nbProjetsValides, tabProjets.length);
-
+    //recherche des dossiers en trop
     listeProjets.forEach((dossier) => {
       const estVerifie = dossiersTracked(dossier, tabProjets);
       if (!estVerifie) {
