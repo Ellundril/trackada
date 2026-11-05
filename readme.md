@@ -101,3 +101,6 @@ node checktrack.js
 - laisser la possibilité à l'utilisatrice de ne vérifier qu'un seul projet
 - lister les dossiers présents mais non analysés car non présents dans [track.json](track.json)
 - séparation du script en deux fichiers avec export et import des fonctions nécessaires
+- ecriture des résultats dans un fichier texte **resultats.txt** avec la date du jour
+
+  _NB : Ce fichier n'apparaît qu'une fois la commande lancée une première fois_

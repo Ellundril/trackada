@@ -1,4 +1,4 @@
-import { existsSync } from "fs";
+import { existsSync, writeFileSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 import chalk from "chalk"; //permet d'afficher des couleurs dans le terminal
@@ -11,6 +11,14 @@ const cheminProjets = join(
   "bloc1",
   "projets",
 );
+
+// fonction écriture dans un fichier
+const ecrire = (string) => {
+  writeFileSync(join(cheminProjets, "trackada", "resultats.txt"), string, {
+    encoding: "utf-8",
+    flag: "a+",
+  });
+};
 
 //Fonctions de bases
 const existeProjet = (chemin) => {
@@ -43,11 +51,13 @@ const isFileMissing = (chemin, tableau) => {
 };
 //Vérif dossier parent projets
 const dossierProjetExist = () => {
-  console.log(
-    existsSync(cheminProjets)
-      ? chalk.green.bold(`✅ dossier projets\n`)
-      : chalk.red.bold(`❌ dossier projets introuvable\n`),
-  );
+  if (existsSync(cheminProjets)) {
+    console.log(chalk.green.bold(`✅ dossier projets\n`));
+    ecrire(`✅ dossier projets\n`);
+  } else {
+    console.log(chalk.red.bold(`❌ dossier projets introuvable\n`));
+    ecrire(`❌ dossier projets introuvable\n`);
+  }
 };
 //Vérification présence du dossier, de .git, des fichiers requis et stockage de ces infos dans un objet
 function verifierProjet(suiviProjet, projet) {
@@ -71,17 +81,26 @@ function afficherResultat(objet) {
 const afficherPourcentage = (ok, total) => {
   const pourcentage = Math.round((ok / total) * 100);
   const valide = ok === total;
-  valide
-    ? console.log(
-        chalk.green.bold(
-          `✅ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
-        ),
-      )
-    : console.log(
-        chalk.red.bold(
-          `❌ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
-        ),
-      );
+
+  if (valide) {
+    console.log(
+      chalk.green.bold(
+        `✅ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
+      ),
+    );
+    ecrire(
+      `✅ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
+    );
+  } else {
+    console.log(
+      chalk.red.bold(
+        `❌ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
+      ),
+    );
+    ecrire(
+      `❌ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
+    );
+  }
 };
 
 //détecter les dossiers en trop
@@ -103,14 +122,19 @@ const recupDossierATraiter = (nom, tableauDossiers) => {
 //=====FONCTIONS AFFICHAGE====
 
 function afficherStatut(nom, ok) {
-  ok
-    ? console.log(chalk.green.bold(`✅ dossier du projet ${nom}\n`))
-    : console.log(chalk.red.bold(`❌ dossier du projet ${nom}\n`));
+  if (ok) {
+    console.log(chalk.green.bold(`✅ dossier du projet ${nom}\n`));
+    ecrire(`✅ dossier du projet ${nom}\n`);
+  } else {
+    console.log(chalk.red.bold(`❌ dossier du projet ${nom}\n`));
+    ecrire(`❌ dossier du projet ${nom}\n`);
+  }
 }
 
 const afficherErreurs = (erreurs) => {
   erreurs.forEach((e) => {
     console.log(` - ${e}`);
+    ecrire(` - ${e}\n`);
   });
 };
 
@@ -131,6 +155,7 @@ const messageFichiers = (manquants) => {
 const afficherDossiersSupp = (listeDossiersSupp) => {
   const dossiersSupp = formaterListe(listeDossiersSupp);
   console.log(chalk.blue.italic(`Les dossiers ${dossiersSupp} sont en trop.`));
+  ecrire(`Les dossiers ${dossiersSupp} sont en trop.`);
 };
 // ==== exportations ====
 export {
@@ -141,5 +166,6 @@ export {
   dossiersTracked,
   afficherDossiersSupp,
   recupDossierATraiter,
+  ecrire,
   cheminProjets,
 };

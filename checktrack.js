@@ -9,6 +9,7 @@ import {
   dossiersTracked,
   afficherDossiersSupp,
   recupDossierATraiter,
+  ecrire,
 } from "./utils.js";
 
 import readline from "readline";
@@ -18,6 +19,9 @@ import readline from "readline";
 const trackJson = JSON.parse(readFileSync("track.json", "utf-8"));
 const tabProjets = trackJson.projects; //c'est un tableau
 const listeProjets = readdirSync(cheminProjets);
+
+//récupération de la date et écriture dans le fichier
+const date = new Date();
 
 let suiviProjet = {
   nom: "",
@@ -43,7 +47,7 @@ rl.question(
     switch (reponse.trim().toLowerCase()) {
       case "o":
         console.log(`Je lance la vérification...\n`);
-
+        ecrire(`\n${date.toDateString()}\n`);
         // ===== VERIFICATION EXISTENCE DU DOSSIER PROJET
         dossierProjetExist();
         // ===== VERIFICATION DES PROJETS =====
@@ -72,6 +76,7 @@ rl.question(
 
       default:
         if (dossiersTracked(reponse.trim().toLowerCase(), tabProjets)) {
+          ecrire(`\n${date.toDateString()}\n`);
           const nomDossier = reponse.trim().toLowerCase();
           console.log(`Vérification du projet ${nomDossier}`);
           const dossierComplet = recupDossierATraiter(nomDossier, tabProjets);
