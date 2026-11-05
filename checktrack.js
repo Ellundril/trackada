@@ -1,19 +1,22 @@
-import { readFileSync } from "fs";
+import { readFileSync, readdirSync } from "fs";
 
 import {
   dossierProjetExist,
   verifierProjet,
   afficherPourcentage,
   afficherResultat,
+  cheminProjets,
+  dossiersTracked,
+  afficherDossiersSupp,
 } from "./utils.js";
 
 import readline from "readline";
-import chalk from "chalk";
 
 // ==== CHARGEMENT ====
 //Charger et parser JSON
 const trackJson = JSON.parse(readFileSync("track.json", "utf-8"));
 const tabProjets = trackJson.projects; //c'est un tableau
+const listeProjets = readdirSync(cheminProjets);
 
 let suiviProjet = {
   nom: "",
@@ -24,6 +27,7 @@ let suiviProjet = {
   ok: false,
 };
 let nbProjetsValides = 0;
+let projetsEnTrop = [];
 
 //==== Interaction avec l'utilisateur =====
 const rl = readline.createInterface({
@@ -46,7 +50,16 @@ rl.question("Lancer la vérification ? (o/n) ", (reponse) => {
         nbProjetsValides++;
       }
     });
+
     afficherPourcentage(nbProjetsValides, tabProjets.length);
+
+    listeProjets.forEach((dossier) => {
+      const estVerifie = dossiersTracked(dossier, tabProjets);
+      if (!estVerifie) {
+        projetsEnTrop.push(dossier);
+      }
+    });
+    afficherDossiersSupp(projetsEnTrop);
   } else {
     console.log("Annulé.");
   }
