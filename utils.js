@@ -155,7 +155,7 @@ const messageFichiers = (manquants) => {
 const afficherDossiersSupp = (listeDossiersSupp) => {
   const dossiersSupp = formaterListe(listeDossiersSupp);
   console.log(chalk.blue.italic(`Les dossiers ${dossiersSupp} sont en trop.`));
-  ecrire(`Les dossiers ${dossiersSupp} sont en trop.`);
+  ecrire(`Les dossiers ${dossiersSupp} sont en trop.\n`);
 };
 // ==== exportations ====
 export {
