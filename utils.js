@@ -89,6 +89,16 @@ const dossiersTracked = (dossier, trackedTab) => {
   return trackedTab.some((projet) => projet.name === dossier);
 };
 
+const recupDossierATraiter = (nom, tableauDossiers) => {
+  let dossierVise;
+  tableauDossiers.forEach((dossier) => {
+    if (nom === dossier.name) {
+      dossierVise = dossier;
+    }
+  });
+  return dossierVise;
+};
+
 //=====FONCTIONS AFFICHAGE====
 
 function afficherStatut(nom, ok) {
@@ -129,5 +139,6 @@ export {
   dossierProjetExist,
   dossiersTracked,
   afficherDossiersSupp,
+  recupDossierATraiter,
   cheminProjets,
 };

@@ -8,6 +8,7 @@ import {
   cheminProjets,
   dossiersTracked,
   afficherDossiersSupp,
+  recupDossierATraiter,
 } from "./utils.js";
 
 import readline from "readline";
@@ -36,33 +37,51 @@ const rl = readline.createInterface({
 });
 
 console.log("Outil de vérification de projets activé...");
-rl.question("Lancer la vérification ? (o/n) ", (reponse) => {
-  if (reponse.trim().toLowerCase() === "o") {
-    console.log(`Je lance la vérification...\n`);
+rl.question(
+  ` - Lancer la vérification complète ? (o)\n - Vérifier un projet (nom-projet) \n- annuler (n)`,
+  (reponse) => {
+    switch (reponse.trim().toLowerCase()) {
+      case "o":
+        console.log(`Je lance la vérification...\n`);
 
-    // ===== VERIFICATION EXISTENCE DU DOSSIER PROJET
-    dossierProjetExist();
-    // ===== VERIFICATION DES PROJETS =====
-    tabProjets.forEach((projet) => {
-      verifierProjet(suiviProjet, projet);
-      afficherResultat(suiviProjet);
-      if (suiviProjet.ok) {
-        nbProjetsValides++;
-      }
-    });
+        // ===== VERIFICATION EXISTENCE DU DOSSIER PROJET
+        dossierProjetExist();
+        // ===== VERIFICATION DES PROJETS =====
+        tabProjets.forEach((projet) => {
+          verifierProjet(suiviProjet, projet);
+          afficherResultat(suiviProjet);
+          if (suiviProjet.ok) {
+            nbProjetsValides++;
+          }
+        });
 
-    afficherPourcentage(nbProjetsValides, tabProjets.length);
-    //recherche des dossiers en trop
-    listeProjets.forEach((dossier) => {
-      const estVerifie = dossiersTracked(dossier, tabProjets);
-      if (!estVerifie) {
-        projetsEnTrop.push(dossier);
-      }
-    });
-    afficherDossiersSupp(projetsEnTrop);
-  } else {
-    console.log("Annulé.");
-  }
+        afficherPourcentage(nbProjetsValides, tabProjets.length);
+        //recherche des dossiers en trop
+        listeProjets.forEach((dossier) => {
+          const estVerifie = dossiersTracked(dossier, tabProjets);
+          if (!estVerifie) {
+            projetsEnTrop.push(dossier);
+          }
+        });
+        afficherDossiersSupp(projetsEnTrop);
+        break;
 
-  rl.close();
-});
+      case "n":
+        console.log("Vérification annulée.");
+        break;
+
+      default:
+        if (dossiersTracked(reponse.trim().toLowerCase(), tabProjets)) {
+          const nomDossier = reponse.trim().toLowerCase();
+          console.log(`Vérification du projet ${nomDossier}`);
+          const dossierComplet = recupDossierATraiter(nomDossier, tabProjets);
+          verifierProjet(suiviProjet, dossierComplet);
+          afficherResultat(suiviProjet);
+        } else {
+          console.log(`Le projet ${reponse} n'existe pas`);
+        }
+    }
+
+    rl.close();
+  },
+);
