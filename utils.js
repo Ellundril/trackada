@@ -83,6 +83,16 @@ const afficherPourcentage = (ok, total) => {
         ),
       );
 };
+
+//détecter les dossiers en trop
+const dossiersTracked = (dossier, trackedTab) => {
+  trackedTab.some((projet) => {
+    if (projet.name === dossier) {
+      return true;
+    }
+  });
+};
+
 //=====FONCTIONS AFFICHAGE====
 
 function afficherStatut(nom, ok) {
