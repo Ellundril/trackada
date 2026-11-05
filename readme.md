@@ -42,10 +42,11 @@ node checktrack.js
 ```
 
 3. Choisir une option :
-   - o pour oui
-   - n pour non
+   - o pour lancer la vérification complète
+   - le "nom d'un projet" pour vérifier ce projet particulier
+   - n pour annuler la vérification
 
-4. Trackada renvoie l'analyse des fichiers sauf si vous avez choisi "n" à l'étape 4.
+4. Trackada renvoie l'analyse des fichiers demandés sauf si vous avez choisi "n" à l'étape 3.
 
 ### Résultats
 
@@ -76,3 +77,15 @@ node checktrack.js
     _Exemple_ :
 
     > ❌ 29% des projets sont initialisés correctement (2/7)
+
+- **dossiers supplémentaires non traités** :
+- affiche la liste des dossiers de projets non suivis par trackada mais présents dans le dossier parent "Projets"
+  _Exemple_ :
+  > Les dossiers adapage_lyon_seyroux_violaine.zip, adaremise, adatheque et cluada sont en trop.
+
+## Bonus réalisés :
+
+- ajout des couleurs dans le terminal (grâce au module chalk)
+- laisser la possibilité à l'utilisatrice de ne vérifier qu'un seul projet
+- lister les dossiers présents mais non analysés car non présents dans [track.json](track.json)
+- séparation du script en deux fichiers avec export et import des fonctions nécessaires
