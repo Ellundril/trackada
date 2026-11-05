@@ -12,18 +12,18 @@ const cheminProjets = join(
   "projets",
 );
 
-//récupération de la date
-const date = new Date();
-console.log(date.toDateString());
-
 // fonction écriture dans un fichier
-
 const ecrire = (string) => {
   writeFileSync(join(cheminProjets, "trackada", "resultats.txt"), string, {
     encoding: "utf-8",
     flag: "a+",
   });
 };
+
+//récupération de la date
+const date = new Date();
+ecrire(date.toDateString());
+
 //Fonctions de bases
 const existeProjet = (chemin) => {
   const exist = existsSync(chemin);
@@ -85,17 +85,26 @@ function afficherResultat(objet) {
 const afficherPourcentage = (ok, total) => {
   const pourcentage = Math.round((ok / total) * 100);
   const valide = ok === total;
-  valide
-    ? console.log(
-        chalk.green.bold(
-          `✅ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
-        ),
-      )
-    : console.log(
-        chalk.red.bold(
-          `❌ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
-        ),
-      );
+
+  if (valide) {
+    console.log(
+      chalk.green.bold(
+        `✅ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
+      ),
+    );
+    ecrire(
+      `✅ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
+    );
+  } else {
+    console.log(
+      chalk.red.bold(
+        `❌ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
+      ),
+    );
+    ecrire(
+      `❌ ${pourcentage}% des projets sont initialisés correctement (${ok}/${total})\n`,
+    );
+  }
 };
 
 //détecter les dossiers en trop
@@ -117,14 +126,19 @@ const recupDossierATraiter = (nom, tableauDossiers) => {
 //=====FONCTIONS AFFICHAGE====
 
 function afficherStatut(nom, ok) {
-  ok
-    ? console.log(chalk.green.bold(`✅ dossier du projet ${nom}\n`))
-    : console.log(chalk.red.bold(`❌ dossier du projet ${nom}\n`));
+  if (ok) {
+    console.log(chalk.green.bold(`✅ dossier du projet ${nom}\n`));
+    ecrire(`✅ dossier du projet ${nom}\n`);
+  } else {
+    console.log(chalk.red.bold(`❌ dossier du projet ${nom}\n`));
+    ecrire(`❌ dossier du projet ${nom}\n`);
+  }
 }
 
 const afficherErreurs = (erreurs) => {
   erreurs.forEach((e) => {
     console.log(` - ${e}`);
+    ecrire(` - ${e}\n`);
   });
 };
 
@@ -145,6 +159,7 @@ const messageFichiers = (manquants) => {
 const afficherDossiersSupp = (listeDossiersSupp) => {
   const dossiersSupp = formaterListe(listeDossiersSupp);
   console.log(chalk.blue.italic(`Les dossiers ${dossiersSupp} sont en trop.`));
+  ecrire(`Les dossiers ${dossiersSupp} sont en trop.`);
 };
 // ==== exportations ====
 export {
