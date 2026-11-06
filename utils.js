@@ -108,6 +108,15 @@ const dossiersTracked = (dossier, trackedTab) => {
   return trackedTab.some((projet) => projet.name === dossier);
 };
 
+const recupDossierSupp = (liste, checkList, result) => {
+  liste.forEach((dossier) => {
+    const estVerifie = dossiersTracked(dossier, checkList);
+    if (!estVerifie) {
+      result.push(dossier);
+    }
+  });
+};
+
 //recupère un objet précis dans le tableau grâce à son nom
 const recupDossierATraiter = (nom, tableauDossiers) => {
   let dossierVise;
@@ -167,5 +176,6 @@ export {
   afficherDossiersSupp,
   recupDossierATraiter,
   ecrire,
+  recupDossierSupp,
   cheminProjets,
 };

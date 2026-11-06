@@ -9,6 +9,7 @@ import {
   dossiersTracked,
   afficherDossiersSupp,
   recupDossierATraiter,
+  recupDossierSupp,
   ecrire,
 } from "./utils.js";
 
@@ -20,7 +21,7 @@ const trackJson = JSON.parse(readFileSync("track.json", "utf-8"));
 const tabProjets = trackJson.projects; //c'est un tableau
 const listeProjets = readdirSync(cheminProjets);
 
-//récupération de la date et écriture dans le fichier
+//récupération de la date
 const date = new Date();
 
 let suiviProjet = {
@@ -48,12 +49,7 @@ function checkAll() {
   });
   afficherPourcentage(nbProjetsValides, tabProjets.length);
   //recherche des dossiers en trop
-  listeProjets.forEach((dossier) => {
-    const estVerifie = dossiersTracked(dossier, tabProjets);
-    if (!estVerifie) {
-      projetsEnTrop.push(dossier);
-    }
-  });
+  recupDossierSupp(listeProjets, tabProjets, projetsEnTrop);
   afficherDossiersSupp(projetsEnTrop);
 }
 
