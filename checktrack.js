@@ -34,6 +34,37 @@ let suiviProjet = {
 let nbProjetsValides = 0;
 let projetsEnTrop = [];
 
+function checkAll() {
+  ecrire(`\n${date.toDateString()}\n`);
+  // ===== VERIFICATION EXISTENCE DU DOSSIER PROJET
+  dossierProjetExist();
+  // ===== VERIFICATION DES PROJETS =====
+  tabProjets.forEach((projet) => {
+    verifierProjet(suiviProjet, projet);
+    afficherResultat(suiviProjet);
+    if (suiviProjet.ok) {
+      nbProjetsValides++;
+    }
+  });
+  afficherPourcentage(nbProjetsValides, tabProjets.length);
+  //recherche des dossiers en trop
+  listeProjets.forEach((dossier) => {
+    const estVerifie = dossiersTracked(dossier, tabProjets);
+    if (!estVerifie) {
+      projetsEnTrop.push(dossier);
+    }
+  });
+  afficherDossiersSupp(projetsEnTrop);
+}
+
+function checkOne(dossier) {
+  ecrire(`\n${date.toDateString()}\n`);
+  const nomDossier = dossier.trim().toLowerCase();
+  console.log(`Vérification du projet ${nomDossier}`);
+  const dossierComplet = recupDossierATraiter(nomDossier, tabProjets);
+  verifierProjet(suiviProjet, dossierComplet);
+  afficherResultat(suiviProjet);
+}
 //==== Interaction avec l'utilisateur =====
 const rl = readline.createInterface({
   input: process.stdin,
@@ -47,27 +78,7 @@ rl.question(
     switch (reponse.trim().toLowerCase()) {
       case "o":
         console.log(`Je lance la vérification...\n`);
-        ecrire(`\n${date.toDateString()}\n`);
-        // ===== VERIFICATION EXISTENCE DU DOSSIER PROJET
-        dossierProjetExist();
-        // ===== VERIFICATION DES PROJETS =====
-        tabProjets.forEach((projet) => {
-          verifierProjet(suiviProjet, projet);
-          afficherResultat(suiviProjet);
-          if (suiviProjet.ok) {
-            nbProjetsValides++;
-          }
-        });
-
-        afficherPourcentage(nbProjetsValides, tabProjets.length);
-        //recherche des dossiers en trop
-        listeProjets.forEach((dossier) => {
-          const estVerifie = dossiersTracked(dossier, tabProjets);
-          if (!estVerifie) {
-            projetsEnTrop.push(dossier);
-          }
-        });
-        afficherDossiersSupp(projetsEnTrop);
+        checkAll();
         break;
 
       case "n":
@@ -76,12 +87,7 @@ rl.question(
 
       default:
         if (dossiersTracked(reponse.trim().toLowerCase(), tabProjets)) {
-          ecrire(`\n${date.toDateString()}\n`);
-          const nomDossier = reponse.trim().toLowerCase();
-          console.log(`Vérification du projet ${nomDossier}`);
-          const dossierComplet = recupDossierATraiter(nomDossier, tabProjets);
-          verifierProjet(suiviProjet, dossierComplet);
-          afficherResultat(suiviProjet);
+          checkOne(reponse);
         } else {
           console.log(`Le projet ${reponse} n'existe pas`);
         }
