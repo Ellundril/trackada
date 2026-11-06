@@ -57,7 +57,7 @@ node checktrack.js
    - le "nom d'un projet" pour vérifier ce projet particulier
    - "n" pour annuler la vérification
 
-En cas d'erreur : modifier l'arborescence dans la variable cheminProjet du fichier [utils.js](utils.js) pour qu'elle corresponde à votre machine
+En cas d'erreur : modifier l'arborescence dans la variable cheminProjets du fichier [utils.js](utils.js) pour qu'elle corresponde à l'arborescence de votre machine
 
 ```js
 const cheminProjets = join(
