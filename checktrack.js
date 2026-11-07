@@ -36,7 +36,7 @@ let nbProjetsValides = 0;
 let projetsEnTrop = [];
 
 function checkAll() {
-  ecrire(`\n${date.toDateString()}\n`);
+  ecrire(`\n${date.toDateString("fr-FR")}\n`);
   // ===== VERIFICATION EXISTENCE DU DOSSIER PROJET
   dossierProjetExist();
   // ===== VERIFICATION DES PROJETS =====
